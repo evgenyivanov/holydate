@@ -10,7 +10,7 @@
 
 import datetime
 from holidate_func import easter, ju_to_jd, weekday_ju, gr_to_jd
-import menology
+from menology import *
 
 #Дни недели, месяцы, гласы.
 weekday_word = {0: 'Воскресенье', 1: 'Понедельник', 2: 'Вторник', 3: 'Среда',
@@ -25,13 +25,22 @@ tone_word = {1: 'первый', 2: 'второй', 3: 'третий', 4: 'чет
 
 
 #Текущая дата по григорианскому календарю.
+"""
 gr_day = datetime.date.today().day
 gr_month = datetime.date.today().month
 gr_year = datetime.date.today().year
 day, month, year = gr_to_jd(gr_day, gr_month, gr_year)
 
+
+
+"""
+gr_day = 23
+gr_month = 1
+gr_year = 2013
+day, month, year = gr_to_jd(gr_day, gr_month, gr_year)
+
 saint = menology[month][day]['saint']
-bow = saint[month][day]['bow']
+bow = menology[month][day]['bow']
 
 #Юлианская Дата Пасхи 
 julian_date_easter = ju_to_jd(*easter(year))
@@ -205,13 +214,15 @@ elif difference_between_days in [55]:
     weekname = 'Отдание праздника Пятидесятницы'
 elif difference_between_days in [56]:
     weekname = 'Неделя всех святых'
-elif difference_between_days > 56:
+else:
     if weekday in [0]:
         weekname = str(week_after_pentecost) + ' неделя по Пятидесятнице'
+    elif weekday in [6]:
+        weekname = str(week_after_pentecost) + ' суббота по Пятидесятнице'
     else:
         weekname = str(week_after_pentecost) + ' cедмица по Пятидесятнице'
 
-    # Правила для постов всего лета.
+# Правила для постов всего лета.
 #От Недели о мытаре и фарисее до Недели о блудном сыне.
 if difference_between_days in range(-70, -63):
     #Седмица сплошная, пища скоромная.
@@ -675,18 +686,22 @@ else:
         fast = 5
 
 #Устав Гласов во все Лето.
+#Светлая седмица.
 if difference_between_days in range(0, 6):
     tone = weekday + 1
 elif difference_between_days in [6]:
     tone = 8
 else:
-    tone = week_from_easter % 8
+    if difference_between_days < -8 and month in [1, 2, 3, 4]:
+        tone = ((julian_date_today - (ju_to_jd(*easter(year - 1)))) / 7) % 8
+    elif difference_between_days > 6:
+        tone = ((julian_date_today - (ju_to_jd(*easter(year)))) / 7) % 8
 
 #Устав о приходных и исходных полонах всего лета.
-#От Пасхи до недели Всех Святых.
-#поклоны поясные.
-if difference_between_days in range(0, 58):
-    bows = 'Приходные и исходные поклоны поясные'
+#В неделю Сыропустную.
+if difference_between_days in [-49]:
+    bows = ('Утром, на службе приходные и исходные поклоны  поясные, '
+            'а вечером -- приходные поясные, исходные земные')
 #Устав на полиелеосы в Великий Пост.
 elif difference_between_days in range(-49, 0):
     if weekday in [5]:
@@ -722,40 +737,54 @@ elif difference_between_days in range(-49, 0):
     #В субботу поклоны поясные.
     elif weekday in [6]:
         #Кроме Великой  субботы.
-        if difference_between_days in range(-1, 0):
+        if difference_between_days in [-1]:
             bows = 4
         else:
             bows = 'Приходные и исходные поклоны поясные'
-#Во все двунадесятые, бденные, 
-#полиелеосные праздники, 
-#когда выход и славословие,
-#а также в попраздненства поклоны поясные.
-elif weekday in [1, 2, 3, 4]:
-    #12-й праздник и попраздненство.
-    if bow in [4, 5]:
-        bows = 'Приходные и исходные поклоны поясные'
-    #Славословие и полиелеос.
-    elif bow in [1]:
-        bows = ('Утром, на службе приходные и исходные поклоны  поясные, '
-                'а вечером -- приходные и исходные земные')
-        #Бдение.
-    elif bow in [3]:
-        bows = ('Утром, на службе приходные и исходные поклоны  поясные, '
-                'а вечером -- приходные поясные, исходные земные' )
-#В пятницу.
-elif weekday in [5]:
-#Когда святой на 4 или на 6,
-    #и нет попразненства --
-    #приходные земные, исходные поясные.
-    if bow in [0]:
-        bows = 'Приходные поклоны земные, а исходные поклоны поясные'
-    #Бдение, полиелеос, 12-й праздник,
-    #попраздненство.
-    elif bow in [2, 3, 4, 5]:
-        bows = 'Приходные и исходные поклоны поясные'
-#В остальное время года поклоны земные.
+#От Пасхи до недели Всех Святых.
+#поклоны поясные.
+elif difference_between_days in range(0, 58):
+    bows = 'Приходные и исходные поклоны поясные'
+#Когда нет Триоди.
 else:
-    bows = 'Приходные и исходные поклоны земные'
+    #В воскресенье.
+    if weekday in [0]:
+        bows = 'Приходные и исходные поклоны поясные'
+    #Среди седмицы во все двунадесятые, бденные,
+    #полиелеосные праздники,
+    #когда выход и славословие,
+    #а также в попраздненства поклоны поясные.
+    elif weekday in [1, 2, 3, 4]:
+        #12-й праздник и попраздненство.
+        if bow in [4, 5]:
+            bows = 'Приходные и исходные поклоны поясные'
+        #Бдение.
+        elif bow in [3]:
+            bows = ('Утром, на службе приходные и исходные поклоны  поясные, '
+                    'а вечером -- приходные поясные, исходные земные' )
+        #Славословие и полиелеос.
+        elif bow in [1]:
+            bows = ('Утром, на службе приходные и исходные поклоны  поясные, '
+                    'а вечером -- приходные и исходные земные')
+        #Когда святой на 4 или на 6,
+        #и нет попразненства.
+        elif bow in [0]:
+            bows = 'Приходные и исходные поклоны земные'
+    #В пятницу.
+    elif weekday in [5]:
+        #Когда святой на 4 или на 6,
+        #и нет попразненства --
+        #приходные земные, исходные поясные.
+        if bow in [0]:
+            bows = 'Приходные поклоны земные, а исходные поклоны поясные'
+        #Бдение, полиелеос, 12-й праздник,
+        #попраздненство.
+        elif bow in [2, 3, 4, 5]:
+            bows = 'Приходные и исходные поклоны поясные'
+    #В субботу.
+    elif weekday in [6]:
+        bows = 'Приходные и исходные поклоны поясные'
+
 
 fasts_word = {
     0: 'Трапеза не поставляется',
@@ -773,7 +802,7 @@ fasts_word = {
     12: 'На трапезе -- молоко, сыр, яйца',
     13: 'Пища скоромная',
     14: 'Пища без масла, пьем вино ради восопминания Вечери Господней'
-}
+    }
 
 print '******************************************************'
 
@@ -786,6 +815,13 @@ print weekday_word[weekday]
 # Дата по юлианскому календарю.
 print day, month_word[month], year, 'года', '-- По юлианскому календарю'
 print gr_day, month_word[gr_month], gr_year, 'года', '-- По григорианскому календарю'
+print ''
+# Вывод дня недели.
+print menology[month][day]['description'] + '.'
+print fasts_word[fast] + '.'
+print ' '
+#Поклоны
+print bows + '.'
 print ''
 print '****************Служебная***************************'
 print 'Пасха:', easter(year)
