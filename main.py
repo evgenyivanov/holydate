@@ -34,8 +34,8 @@ day, month, year = gr_to_jd(gr_day, gr_month, gr_year)
 
 
 """
-gr_day = 23
-gr_month = 1
+gr_day = 22
+gr_month = 3
 gr_year = 2013
 day, month, year = gr_to_jd(gr_day, gr_month, gr_year)
 
