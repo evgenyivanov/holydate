@@ -34,6 +34,7 @@ day, month, year = gr_to_jd(gr_day, gr_month, gr_year)
 
 
 """
+
 gr_day = 22
 gr_month = 3
 gr_year = 2013
@@ -569,7 +570,7 @@ elif julian_date_today in range(ju_to_jd(1, 7, year), ju_to_jd(15, 8, year)):
         fast = 1
         #В понедельник, среду, пятницу
         #пища без масла, если святой на 6 или полиелеос.
-    elif weekday in [1, 3, 5] and saint in [0, 1, 2, 3, 4]:
+    elif weekday in [1, 3, 5] and saint in [1, 2, 3, 4]:
         fast = 2
         #В понедельник, среду, пятницу
         #пища с маслом, если бдение.
@@ -593,7 +594,7 @@ elif julian_date_today in range(ju_to_jd(15, 8, year), ju_to_jd(14, 11, year)):
 #Неделя, вторник, четверг, суббота.
     if weekday in [0, 2, 4, 6] and saint in [0, 1, 2, 3, 4, 5, 6]:
         fast = 7
-    #В для тех кто постится в понедельник.
+    #Для тех кто постится в понедельник.
     elif weekday in [1] and saint in [0, 1]:
         fast = 9
         #В для тех кто постится в понедельник,
