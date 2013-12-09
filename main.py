@@ -35,8 +35,8 @@ day, month, year = gr_to_jd(gr_day, gr_month, gr_year)
 
 """
 
-gr_day = 22
-gr_month = 3
+gr_day = 26
+gr_month = 10
 gr_year = 2013
 day, month, year = gr_to_jd(gr_day, gr_month, gr_year)
 
@@ -764,7 +764,7 @@ else:
             bows = ('Утром, на службе приходные и исходные поклоны  поясные, '
                     'а вечером -- приходные поясные, исходные земные' )
         #Славословие и полиелеос.
-        elif bow in [1]:
+        elif bow in [1, 2]:
             bows = ('Утром, на службе приходные и исходные поклоны  поясные, '
                     'а вечером -- приходные и исходные земные')
         #Когда святой на 4 или на 6,
@@ -818,7 +818,11 @@ print day, month_word[month], year, 'года', '-- По юлианскому к
 print gr_day, month_word[gr_month], gr_year, 'года', '-- По григорианскому календарю'
 print ''
 # Вывод дня недели.
-print menology[month][day]['description'] + '.'
+print menology[month][day]['first_saint'],
+try:
+    print menology[month][day]['second_saint'], menology[month][day]['old_believer_saint']
+except KeyError:
+    None
 print fasts_word[fast] + '.'
 print ' '
 #Поклоны
