@@ -5,8 +5,9 @@
 Поиск имен святых в календаре.
 
 """
-
+import datetime
 from menology import menology
+from holidate_func import ju_to_gr_in_search
 
 month_word = {
     1: 'января',
@@ -23,21 +24,24 @@ month_word = {
     12: 'декабря'
 }
 
-search_string = 'Рожество'
+search_string = 'Спиридон'
 d = menology
-list_result = []
+out = []
+year = datetime.date.today().year
 
 #Ищем в menology строку; если есть, добавляем в словарь.
 for key, value in d.iteritems():
     for key1, value1 in d[key].iteritems():
         for key2, value2 in d[key][key1].iteritems():
             if search_string in str(value2):
-                list_result.extend([[key, [key1, value2]]])
+                out.extend([[ju_to_gr_in_search(key1, key, year), [key1, key], [value2]]])
 
-#Меняем 0 элемент вложенного списка на значения словаря с названиями месяцев.
-out = map(lambda s: s[0] in month_word and [month_word[s[0]], s[1]] or s, list_result)
+#Меняем элементы вложенного списка на значения словаря с названиями месяцев.
+for item in out:
+    item[0][1], item[1][1] = month_word[item[0][1]], month_word[item[1][1]]
 
 #Вывод результата.
-for index, item in out:
-    print item[0], index, 'по ст. ст.', item[1]
+#TODO: обработать вывод, если строка поиска не найдена.
+for item in out:
+    print item[0][0], item[0][1], 'по ст. ст.', '\n', item[1][0], item[1][1], 'по н. ст.', item[2][0]
 
