@@ -6,6 +6,7 @@
 
 """
 import datetime
+import re
 from menology import menology
 from holidate_func import ju_to_gr_in_search
 
@@ -24,16 +25,17 @@ month_word = {
     12: 'декабря'
 }
 
-search_string = 'Спиридон'
+search_string = 'Авраам'.decode('utf8')
 d = menology
 out = []
 year = datetime.date.today().year
+pattern = re.compile(search_string[:-1], re.IGNORECASE | re.UNICODE)
 
-#Ищем в menology строку; если есть, добавляем в словарь.
+#Ищем в menology строку; если есть, добавляем в out.
 for key, value in d.iteritems():
     for key1, value1 in d[key].iteritems():
         for key2, value2 in d[key][key1].iteritems():
-            if search_string in str(value2):
+            if re.search(pattern, str(value2).decode('utf8')):
                 out.extend([[ju_to_gr_in_search(key1, key, year), [key1, key], [value2]]])
 
 #Меняем элементы вложенного списка на значения словаря с названиями месяцев.
@@ -41,7 +43,9 @@ for item in out:
     item[0][1], item[1][1] = month_word[item[0][1]], month_word[item[1][1]]
 
 #Вывод результата.
-#TODO: обработать вывод, если строка поиска не найдена.
-for item in out:
-    print item[0][0], item[0][1], 'по ст. ст.', '\n', item[1][0], item[1][1], 'по н. ст.', item[2][0]
-
+if len(out) == 0:
+    print u'Ваш запрос — «{}» не найден!'.format(search_string)
+else:
+    for item in out:
+        print item[0][0], item[0][1], 'по ст. ст.', '\n', item[1][0], item[1][1], 'по н. ст.', \
+            item[2][0].format(red='\033[31m', end='\033[0m')
