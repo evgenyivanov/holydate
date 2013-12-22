@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#coding: utf-8
 
 
 """
@@ -8,9 +8,10 @@
 
 """
 
+import textwrap
 import datetime
 from holidate_func import easter, ju_to_jd, weekday_ju, gr_to_jd
-from menology import *
+from menology import menology
 
 #Дни недели, месяцы, гласы.
 weekday_word = {0: 'Воскресенье', 1: 'Понедельник', 2: 'Вторник', 3: 'Среда',
@@ -25,19 +26,17 @@ tone_word = {1: 'первый', 2: 'второй', 3: 'третий', 4: 'чет
 
 
 #Текущая дата по григорианскому календарю.
-"""
+'''
 gr_day = datetime.date.today().day
 gr_month = datetime.date.today().month
 gr_year = datetime.date.today().year
 day, month, year = gr_to_jd(gr_day, gr_month, gr_year)
 
-
-
-"""
-
-gr_day = 26
-gr_month = 10
+'''
+gr_day = 28
+gr_month = 7
 gr_year = 2013
+
 day, month, year = gr_to_jd(gr_day, gr_month, gr_year)
 
 saint = menology[month][day]['saint']
@@ -69,159 +68,166 @@ week_after_pentecost = week_from_easter - 7
 
 #Переходящие праздники.
 if difference_between_days in [-70]:
-    weekname = 'Неделя о мытаре и фарисее. Начало Триоди постной'
+    weekdayname = 'Неделя о мытаре и фарисее. Начало Триоди постной'
 elif difference_between_days in range(-69, -63):
-    weekname = 'Cедмица о мытаре и фарисее'
+    weekdayname = 'Cедмица о мытаре и фарисее'
 elif difference_between_days in [-63]:
-    weekname = 'Неделя о блудном сыне'
+    weekdayname = 'Неделя о блудном сыне'
 elif difference_between_days in range(-62, -57):
-    weekname = 'Седмица мясопустная'
+    weekdayname = 'Седмица мясопустная'
 elif difference_between_days in [-57]:
-    weekname = 'Суббота мясопустная. Вселенское поминание усопших'
+    weekdayname = 'Суббота мясопустная. Вселенское поминание усопших'
 elif difference_between_days in [-56]:
-    weekname = 'Неделя мясопустная. Воспоминание Страшного суда'
+    weekdayname = 'Неделя мясопустная. Воспоминание Страшного суда'
 elif difference_between_days in range(-55, -50):
-    weekname = 'Седмица сыропустная'
+    weekdayname = 'Седмица сыропустная'
 elif difference_between_days in [-50]:
-    weekname = 'Суббота сыропустная. Память всех преподобных мужей и жен'
+    weekdayname = 'Суббота сыропустная. Память всех преподобных мужей и жен'
 elif difference_between_days in [-49]:
-    weekname = ('Неделя сыропустная. Воспоминание изгнания '
+    weekdayname = ('Неделя сыропустная. Воспоминание изгнания '
                 'Адама и Еввы из рая')
 elif difference_between_days in range(-48, -43):
-    weekname = 'Первая седмица Великого поста'
+    weekdayname = 'Первая седмица Великого поста'
 elif difference_between_days in [-43]:
-    weekname = 'Суббота Феодора Тирона'
+    weekdayname = 'Суббота Феодора Тирона'
 elif difference_between_days in [-42]:
-    weekname = 'Первая неделя Великого поста. Неделя Православия'
+    weekdayname = 'Первая неделя Великого поста. Неделя Православия'
 elif difference_between_days in range(-41, -34):
-    weekname = 'Вторая седмица Великого поста'
+    weekdayname = 'Вторая седмица Великого поста'
 elif difference_between_days in [-34]:
-    weekname = 'Вторая суббота Великого поста. Поминание усопших'
+    weekdayname = 'Вторая суббота Великого поста. Поминание усопших'
 elif difference_between_days in [-35]:
-    weekname = ('Вторая неделя Великого поста. По уставу Успенского собора '
+    weekdayname = ('Вторая неделя Великого поста. По уставу Успенского собора '
                 'Московского Кремля совершается служба Федоровской '
                 'иконе пресв. Богородицы')
 elif difference_between_days in range(-34, -29):
-    weekname = 'Третья седмица Великого поста'
+    weekdayname = 'Третья седмица Великого поста'
 elif difference_between_days in [-29]:
-    weekname = 'Третья суббота Великого поста. Поминание усопших'
+    weekdayname = 'Третья суббота Великого поста. Поминание усопших'
 elif difference_between_days in [-28]:
-    weekname = 'Третья неделя Великого поста. Поклонение Честному Кресту'
+    weekdayname = 'Третья неделя Великого поста. Поклонение Честному Кресту'
 elif difference_between_days in range(-27, -22):
-    weekname = 'Четвертая седмица Великого поста'
+    weekdayname = 'Четвертая седмица Великого поста'
 elif difference_between_days in [-22]:
-    weekname = 'Третья суббота Великого поста. Поминание усопших'
+    weekdayname = 'Третья суббота Великого поста. Поминание усопших'
 elif difference_between_days in [-21]:
-    weekname = 'Четвертая неделя Великого поста.  Иоанна Лествичника'
+    weekdayname = 'Четвертая неделя Великого поста.  Иоанна Лествичника'
 elif difference_between_days in range(-20, -15):
     if weekday in [1, 2, 3, 5]:
-        weekname = 'Пятая седмица Великого поста'
+        weekdayname = 'Пятая седмица Великого поста'
     #TODO: Переписать, т.к. Марьино стояние меняется с Благовещением.
     elif weekday in [4]:
-        weekname = ('Четверток Великого канона преп. Андрея Критского.  '
+        weekdayname = ('Четверток Великого канона преп. Андрея Критского.  '
                     'Совершается служба Марьино стояние')
 elif difference_between_days in [-15]:
-    weekname = ('Пятая суббота Великого поста.  '
+    weekdayname = ('Пятая суббота Великого поста.  '
                 'Служба Акафиста пресв. Богородицы.')
 elif difference_between_days in [-14]:
-    weekname = 'Пятая неделя Великого поста. Преп. Марьи Египетской'
+    weekdayname = 'Пятая неделя Великого поста. Преп. Марьи Египетской'
 elif difference_between_days in range(-13, -8):
-    weekname = 'Шестая седмица Великого поста'
+    weekdayname = 'Шестая седмица Великого поста'
 elif difference_between_days in [-8]:
-    weekname = ('Воскрешение праведного Лазаря. Лазарева суббота.  '
+    weekdayname = ('Воскрешение праведного Лазаря. Лазарева суббота.  '
                 'Начало Триоди Цветной')
 elif difference_between_days in [-7]:
-    weekname = 'Вход Господень во Иерослаим. Неделя Ваий'
+    weekdayname = 'Вход Господень во Иерослаим. Неделя Ваий'
 elif difference_between_days in [-6]:
-    weekname = 'Начало Страстей Господних.  Великий понедельник'
+    weekdayname = 'Начало Страстей Господних.  Великий понедельник'
 elif difference_between_days in [-5]:
-    weekname = 'Великий вторник'
+    weekdayname = 'Великий вторник'
 elif difference_between_days in [-4]:
-    weekname = 'Великая среда'
+    weekdayname = 'Великая среда'
 elif difference_between_days in [-3]:
-    weekname = 'Великий четверг.  Воспоминание Тайной вечери'
+    weekdayname = 'Великий четверг.  Воспоминание Тайной вечери'
 elif difference_between_days in [-2]:
-    weekname = 'Великий пяток'
+    weekdayname = 'Великий пяток'
 elif difference_between_days in [-1]:
-    weekname = 'Великая суббота'
+    weekdayname = 'Великая суббота'
 elif difference_between_days in [0]:
-    weekname = 'Пасха. Светлое Христово Воскресенье'
+    weekdayname = 'Пасха. Светлое Христово Воскресенье'
 elif difference_between_days in range(1, 7):
     if weekday in [2]:
-        weekname = ('Во вторник Светлой седмицы празднуем праздник  '
+        weekdayname = ('Во вторник Светлой седмицы празднуем праздник  '
                     'Одигитрии пресв.  Богородицы')
     else:
-        weekname = 'Светлая седмица'
+        weekdayname = 'Светлая седмица'
 elif difference_between_days in [7]:
-    weekname = 'Неделя о Фоме. Антипасха'
+    weekdayname = 'Неделя о Фоме. Антипасха'
 elif difference_between_days in range(8, 14):
     if day in [9]:
         #TODO: Переписать, т. к. Радоница переносится,
         #если припадает в этот день Георгий Победоносец.
-        weekname = ('Радоница. Во вторник второй седмицы по Пасхе '
+        weekdayname = ('Радоница. Во вторник второй седмицы по Пасхе '
                     'совершаем поминовение усопших')
     else:
-        weekname = 'Седмица вторая по Пасхе о Фоме '
+        weekdayname = 'Седмица вторая по Пасхе о Фоме '
 elif difference_between_days in [14]:
-    weekname = ('Неделя третья по Пасхе свв. Жен Мироносиц  '
+    weekdayname = ('Неделя третья по Пасхе свв. Жен Мироносиц  '
                 'и Иосифа Праведного')
 elif difference_between_days in range(15, 21):
-    weekname = 'Седмица третья по Пасхе'
+    weekdayname = 'Седмица третья по Пасхе'
 elif difference_between_days in [21]:
-    weekname = 'Неделя о Расслабленном'
+    weekdayname = 'Неделя о Расслабленном'
 elif difference_between_days in range(22, 24):
-    weekname = 'Седмица четвертая по Пасхе'
+    weekdayname = 'Седмица четвертая по Пасхе'
 elif difference_between_days in [24]:
-    weekname = 'Преполовение Пятидесятницы'
+    weekdayname = 'Преполовение Пятидесятницы'
 elif difference_between_days in range(25, 28):
-    weekname = 'Седмица четвертая по Пасхе. Попраздненство Преполовения'
+    weekdayname = 'Седмица четвертая по Пасхе. Попраздненство Преполовения'
 elif difference_between_days in [28]:
-    weekname = 'Неделя о Самаряныни'
+    weekdayname = 'Неделя о Самаряныни'
 elif difference_between_days in range(29, 31):
-    weekname = 'Седмица пятая по Пасхе. Попраздненство Преполовения'
+    weekdayname = 'Седмица пятая по Пасхе. Попраздненство Преполовения'
 elif difference_between_days in [31]:
-    weekname = 'Отдание празника Преполовения'
+    weekdayname = 'Отдание празника Преполовения'
 elif difference_between_days in range(32, 35):
-    weekname = 'Седмица пятая по Пасхе'
+    weekdayname = 'Седмица пятая по Пасхе'
 elif difference_between_days in [35]:
-    weekname = 'Неделя о Слепом'
+    weekdayname = 'Неделя о Слепом'
 elif difference_between_days in range(36, 38):
-    weekname = 'Седмица шестая по Пасхе'
+    weekdayname = 'Седмица шестая по Пасхе'
 elif difference_between_days in [38]:
-    weekname = 'Отдание Пасхи'
+    weekdayname = 'Отдание Пасхи'
 elif difference_between_days in [39]:
-    weekname = 'Вознесение Господне'
+    weekdayname = 'Вознесение Господне'
 elif difference_between_days in range(40, 42):
-    weekname = 'Попраздненство Вознесения. Седмица шестая по Пасхе'
+    weekdayname = 'Попраздненство Вознесения. Седмица шестая по Пасхе'
 elif difference_between_days in [42]:
-    weekname = 'Неделя свв. Отцов первого Вселенского собора'
+    weekdayname = 'Неделя свв. Отцов первого Вселенского собора'
 elif difference_between_days in range(43, 46):
-    weekname = 'Попраздненство Вознесения. Седмица седьмая по Пасхе'
+    weekdayname = 'Попраздненство Вознесения. Седмица седьмая по Пасхе'
 elif difference_between_days in [46]:
-    weekname = 'Отдание праздника Вознесения'
+    weekdayname = 'Отдание праздника Вознесения'
 elif difference_between_days in [47]:
-    weekname = 'Седмица седьмая по Пасхе'
+    weekdayname = 'Седмица седьмая по Пасхе'
 elif difference_between_days in [48]:
-    weekname = ('В субботу седьмую по Пасхе совершаем память '
+    weekdayname = ('В субботу седьмую по Пасхе совершаем память '
                 'всем успопшим от века во Христа верующим '
                 'отцам и братьям нашим')
 elif difference_between_days in [49]:
-    weekname = 'Пятидесятница. День святой Тройцы'
+    weekdayname = 'Пятидесятница. День святой Тройцы'
 elif difference_between_days in [50]:
-    weekname = 'Понедельник святого Духа'
+    weekdayname = 'Понедельник святого Духа'
 elif difference_between_days in range(51, 55):
-    weekname = 'Седмица первая по Пятидесятнице'
+    weekdayname = 'Седмица первая по Пятидесятнице'
 elif difference_between_days in [55]:
-    weekname = 'Отдание праздника Пятидесятницы'
+    weekdayname = 'Отдание праздника Пятидесятницы'
 elif difference_between_days in [56]:
-    weekname = 'Неделя всех святых'
+    weekdayname = 'Неделя всех святых'
+#Неделя свв. Отцов 16 июля.
+elif day in [13, 14, 15, 16, 17, 18, 19] and weekday in [0]:
+    weekdayname = ('%s неделя по Пятидесятнице. {red}В сию неделю память совершаем святых отец, '
+                   'иже на первом соборе, в Никее сшедшася, 318. На втором соборе, сшедшася '
+                   'в царствующем граде, 150. На третием соборе во Ефесе, 200. На четвертом '
+                   'соборе, иже в Халкидоне, 630. На пятом соборе, 165. На шестом соборе, 170. '
+                   'И всех вкупе, 1633.{end}') % str(week_after_pentecost)
 else:
     if weekday in [0]:
-        weekname = str(week_after_pentecost) + ' неделя по Пятидесятнице'
+        weekdayname = '{} неделя по Пятидесятнице'.format(str(week_after_pentecost))
     elif weekday in [6]:
-        weekname = str(week_after_pentecost) + ' суббота по Пятидесятнице'
+        weekdayname = '{} суббота по Пятидесятнице'.format(str(week_after_pentecost))
     else:
-        weekname = str(week_after_pentecost) + ' cедмица по Пятидесятнице'
+        weekdayname = '{} сeдмица по Пятидесятнице'.format(str(week_after_pentecost))
 
 # Правила для постов всего лета.
 #От Недели о мытаре и фарисее до Недели о блудном сыне.
@@ -254,7 +260,7 @@ elif difference_between_days in range(-63, -56):
         fast = 5
 #От Недели мясопустной до Недели Сыропустной.
 elif difference_between_days in range(-56, -48):
-    #Седмица сплошная, на трапезе -- млеко, сыр, яйца.
+    #Седмица сплошная, на трапезе — млеко, сыр, яйца.
     fast = 6
 #От Недели сыропустной до первой недели Великого поста.
 elif difference_between_days in range(-49, -42):
@@ -392,7 +398,7 @@ elif difference_between_days in range(-21, -14):
     elif weekday in [2] and day in [23] and saint in [0, 1, 2, 3, 4, 5]:
         fast = 3
     #Если 40 мученников попадают в четверг Великого канона, то он
-    #переносится на вторник. Во вторник -- пища с маслом.
+    #переносится на вторник. Во вторник — пища с маслом.
     elif weekday in [2] and day in [7] and saint in [0, 1, 2, 3]:
         fast = 3
     #Во вторник.
@@ -522,20 +528,20 @@ elif julian_date_today in range(julian_date_easter + 57, ju_to_jd(29, 6, year)):
 #если святой на 4.
     if weekday in [1, 3, 5] and saint in [0]:
         fast = 1
-        #В понедельник, среду, пятницу
-        #пища без масла, если святой на 6 или полиелеос.
+    #В понедельник, среду, пятницу
+    #пища без масла, если святой на 6 или полиелеос.
     elif weekday in [1, 3, 5] and saint in [0, 1, 2, 3, 4]:
         fast = 2
-        #В понедельник, среду, пятницу
-        #пища с маслом, если бдение.
+    #В понедельник, среду, пятницу
+    #пища с маслом, если бдение.
     elif weekday in [1, 3, 5] and saint in [5]:
         fast = 3
-        #В понедельник, среду, пятницу
-        #на трапезе рыба, если Рождество Иоанна Предотечи.
+    #В понедельник, среду, пятницу
+    #на трапезе рыба, если Рождество Иоанна Предотечи.
     elif weekday in [1, 3, 5] and saint in [6]:
         fast = 5
-        #Во вторник, четверг, субботу, неделю,
-        #на трапезе рыба.
+    #Во вторник, четверг, субботу, неделю,
+    #на трапезе рыба.
     elif weekday in [0, 2, 4, 6] and saint in [0, 1, 2, 3, 4, 5, 6]:
         fast = 5
 #Мясоед от дня свв. апп. Петра и Павла до праздника происхождения Креста.
@@ -546,8 +552,8 @@ elif julian_date_today in range(ju_to_jd(29, 6, year), ju_to_jd(1, 8, year)):
     #В для тех кто постится в понедельник.
     elif weekday in [1] and saint in [0, 1]:
         fast = 9
-        #В для тех кто постится в понедельник,
-        #когда Славословие и Полиелеос.
+    #В для тех кто постится в понедельник,
+    #когда Славословие и Полиелеос.
     elif weekday in [1] and saint in [2, 3, 4, 5]:
         fast = 10
     #Великобденный в понедельник.
@@ -556,7 +562,7 @@ elif julian_date_today in range(ju_to_jd(29, 6, year), ju_to_jd(1, 8, year)):
     #Среда, пятница.
     elif weekday in [3, 5] and saint in [0, 1]:
         fast = 2
-        #когда Славословие и Полиелеос.
+    #когда Славословие и Полиелеос.
     elif weekday in [3, 5] and saint in [2, 3, 4, 5]:
         fast = 3
     #Великобденный в среду, пятницу.
@@ -564,20 +570,20 @@ elif julian_date_today in range(ju_to_jd(29, 6, year), ju_to_jd(1, 8, year)):
         fast = 5
 #Успенский пост.
 elif julian_date_today in range(ju_to_jd(1, 7, year), ju_to_jd(15, 8, year)):
-#В понедельник, среду, пятницу сухоядение,
-#если святой на 4.
+    #В понедельник, среду, пятницу сухоядение,
+    #если святой на 4.
     if weekday in [1, 3, 5] and saint in [0]:
         fast = 1
-        #В понедельник, среду, пятницу
-        #пища без масла, если святой на 6 или полиелеос.
+    #В понедельник, среду, пятницу
+    #пища без масла, если святой на 6 или полиелеос.
     elif weekday in [1, 3, 5] and saint in [1, 2, 3, 4]:
         fast = 2
-        #В понедельник, среду, пятницу
-        #пища с маслом, если бдение.
+    #В понедельник, среду, пятницу
+    #пища с маслом, если бдение.
     elif weekday in [1, 3, 5] and saint in [5]:
         fast = 3
-        #Во вторник, четверг, субботу, неделю,
-        #на трапезе масло.
+    #Во вторник, четверг, субботу, неделю,
+    #на трапезе масло.
     elif weekday in [0, 2, 4, 6] and saint in [0, 1, 2, 3, 4, 5]:
         fast = 5
     #Рыба на Преображение.
@@ -591,14 +597,14 @@ elif julian_date_today == ju_to_jd(14, 9, year):
     fast = 3
 #Мясоед от праздника Успения до памяти ап. Филиппа.
 elif julian_date_today in range(ju_to_jd(15, 8, year), ju_to_jd(14, 11, year)):
-#Неделя, вторник, четверг, суббота.
+    #Неделя, вторник, четверг, суббота.
     if weekday in [0, 2, 4, 6] and saint in [0, 1, 2, 3, 4, 5, 6]:
         fast = 7
     #Для тех кто постится в понедельник.
     elif weekday in [1] and saint in [0, 1]:
         fast = 9
-        #В для тех кто постится в понедельник,
-        #когда славословие и полиелеос.
+    #В для тех кто постится в понедельник,
+    #когда славословие и полиелеос.
     elif weekday in [1] and saint in [2, 3, 4]:
         fast = 10
     #Бденный, великобденный в понедельник.
@@ -607,7 +613,7 @@ elif julian_date_today in range(ju_to_jd(15, 8, year), ju_to_jd(14, 11, year)):
     #Среда, пятница.
     elif weekday in [3, 5] and saint in [0, 1]:
         fast = 2
-        #когда славословие и полиелеос, Бдение.
+    #когда славословие и полиелеос, Бдение.
     elif weekday in [3, 5] and saint in [2, 3, 4, 5]:
         fast = 3
     #Великобденный в среду, пятницу.
@@ -615,29 +621,29 @@ elif julian_date_today in range(ju_to_jd(15, 8, year), ju_to_jd(14, 11, year)):
         fast = 5
 #От дня ап. Филиппа до дня свт. Николы.
 elif julian_date_today in range(ju_to_jd(14, 11, year), ju_to_jd(6, 12, year)):
-#В понедельник, среду, пятницу сухоядение,
-#если святой на 4.
+    #В понедельник, среду, пятницу сухоядение,
+    #если святой на 4.
     if weekday in [1, 3, 5] and saint in [0]:
         fast = 1
-        #В понедельник, среду, пятницу
-        #пища без масла, если святой на 6 или полиелеос.
-    elif weekday in [1, 3, 5] and saint in [0, 1, 2, 3, 4]:
+    #В понедельник, среду, пятницу
+    #пища без масла, если святой на 6 или полиелеос.
+    elif weekday in [1, 3, 5] and saint in [1, 2, 3, 4]:
         fast = 2
-        #В понедельник, среду, пятницу
-        #пища с маслом, если бдение.
+    #В понедельник, среду, пятницу
+    #пища с маслом, если бдение.
     elif weekday in [1, 3, 5] and saint in [5]:
         fast = 3
-        #Введение Пресвятой Богородицы,
-        #на трапезе рыба.
+    #Введение Пресвятой Богородицы,
+    #на трапезе рыба.
     elif weekday in [1, 3, 5] and saint in [6]:
         fast = 5
-        #Во вторник, четверг, субботу, неделю,
-        #на трапезе рыба.
+    #Во вторник, четверг, субботу, неделю,
+    #на трапезе рыба.
     elif weekday in [0, 2, 4, 6] and saint in [0, 1, 2, 3, 4, 5, 6]:
         fast = 5
 #Навечерие Рождества.
 elif julian_date_today == ju_to_jd(24, 12, year):
-#В будние дни пища без масла.
+    #В будние дни пища без масла.
     if weekday in [1, 2, 3, 4, 5] and saint in [0, 1, 2, 3, 4, 5]:
         fast = 2
     #В субботу, неделю пища с маслом.
@@ -645,25 +651,28 @@ elif julian_date_today == ju_to_jd(24, 12, year):
         fast = 3
 #От дня свт. Николы до Рождества.
 elif julian_date_today in range(ju_to_jd(6, 12, year), ju_to_jd(25, 12, year)):
-#В понедельник, среду, пятницу сухоядение,
-#если святой на 4.
+    #В понедельник, среду, пятницу сухоядение,
+    #если святой на 4.
     if weekday in [1, 3, 5] and saint in [0]:
         fast = 1
-        #В понедельник, среду, пятницу
-        #пища без масла, если святой на 6 или полиелеос.
+    #В понедельник, среду, пятницу
+    #пища без масла, если святой на 6 или полиелеос.
     elif weekday in [1, 3, 5] and saint in [0, 1, 2, 3, 4]:
         fast = 2
-        #В понедельник, среду, пятницу
-        #пища с маслом, если бдение.
+    #В понедельник, среду, пятницу
+    #пища с маслом, если бдение.
     elif weekday in [1, 3, 5] and saint in [5]:
         fast = 3
-        #В субботу, неделю
-        #на трапезе рыба.
-    elif weekday in [0, 6] and saint in [0, 1, 2, 3, 4, 5, 6]:
+    #Во вторник и четверток едим с маслом.
+    elif weekday in [2, 4] and saint in [0, 1, 2, 3, 4, 5]:
+        fast = 3
+    #В субботу, неделю
+    #на трапезе рыба.
+    elif weekday in [0, 6] and saint in [0, 1, 2, 3, 4, 5]:
         fast = 5
 #Навечерие Богоявления.
 elif julian_date_today == ju_to_jd(5, 1, year):
-#В будние дни пища без масла.
+    #В будние дни пища без масла.
     if weekday in [1, 2, 3, 4, 5] and saint in [0, 1, 2, 3, 4, 5]:
         fast = 2
     #В субботу, неделю пища с маслом.
@@ -702,7 +711,7 @@ else:
 #В неделю Сыропустную.
 if difference_between_days in [-49]:
     bows = ('Утром, на службе приходные и исходные поклоны  поясные, '
-            'а вечером -- приходные поясные, исходные земные')
+            'а вечером — приходные поясные, исходные земные')
 #Устав на полиелеосы в Великий Пост.
 elif difference_between_days in range(-49, 0):
     if weekday in [5]:
@@ -710,27 +719,27 @@ elif difference_between_days in range(-49, 0):
             bows = 'Приходные и исходные поклоны земные'
         elif weekday in [5] and bow in [2, 3, 4, 5]:
             bows = ('Утром, на службе приходные и исходные поклоны  земные, '
-                    'а вечером -- приходные и исходные поясные')
+                    'а вечером — приходные и исходные поясные')
         #В неделю.
         elif weekday in [0] and bow in [2, 3, 4, 5]:
             bows = ('Утром, на службе приходные и исходные поклоны  поясные, '
-                    'а вечером -- приходные поясные, исходные земные')
+                    'а вечером — приходные поясные, исходные земные')
         elif weekday in [5] and bow in [2, 3, 4, 5]:
             bows = ('Утром, на службе приходные и исходные поклоны  земные, '
-                    'а вечером -- приходные и исходные поясные')
+                    'а вечером — приходные и исходные поясные')
         elif weekday in [0] and bow in [2, 3, 4, 5]:
             bows = ('Утром, на службе приходные и исходные поклоны  поясные, '
-                    'а вечером -- приходные поясные, исходные земные')
+                    'а вечером — приходные поясные, исходные земные')
     #В неделю.
     elif weekday in [0]:
         #Если нет попразненства,
         #утром, на службе приходные и
         #поклоны  поясные,
-        #а вечером -- приходные поясные,
+        #а вечером — приходные поясные,
         #исходные земные.
         if bow in [0, 1, 2, 3]:
             bows = ('Утром, на службе приходные и исходные поклоны  поясные, '
-                    'а вечером -- приходные поясные, исходные земные')
+                    'а вечером — приходные поясные, исходные земные')
             #Попраздненство: приходные
         #и исходные поясные с утра и вечером.
     elif bow in [5]:
@@ -762,11 +771,11 @@ else:
         #Бдение.
         elif bow in [3]:
             bows = ('Утром, на службе приходные и исходные поклоны  поясные, '
-                    'а вечером -- приходные поясные, исходные земные' )
+                    'а вечером — приходные поясные, исходные земные' )
         #Славословие и полиелеос.
         elif bow in [1, 2]:
             bows = ('Утром, на службе приходные и исходные поклоны  поясные, '
-                    'а вечером -- приходные и исходные земные')
+                    'а вечером — приходные и исходные земные')
         #Когда святой на 4 или на 6,
         #и нет попразненства.
         elif bow in [0]:
@@ -774,7 +783,7 @@ else:
     #В пятницу.
     elif weekday in [5]:
         #Когда святой на 4 или на 6,
-        #и нет попразненства --
+        #и нет попразненства —
         #приходные земные, исходные поясные.
         if bow in [0]:
             bows = 'Приходные поклоны земные, а исходные поклоны поясные'
@@ -794,33 +803,32 @@ fasts_word = {
     3: 'Пища с маслом',
     4: 'Пища с икрой',
     5: 'Пища с рыбой',
-    6: 'На трапезе -- молоко, сыр, яйца',
+    6: 'На трапезе — молоко, сыр, яйца',
     7: 'Пища скоромная',
-    8: 'Для постящихся в понедельник -- сухоядение, для остальных -- пища скоромная',
-    9: 'Для постящихся в понедельник -- пища без масла, для остальных -- пища скоромная',
-    10: 'Для постящихся в понедельник -- пища с маслом, для остальных -- пища скоромная',
-    11: 'Для постящихся в понедельник -- пища с рыбой,  для остальных -- пища скоромная',
-    12: 'На трапезе -- молоко, сыр, яйца',
+    8: 'Для постящихся в понедельник — сухоядение, для остальных — пища скоромная',
+    9: 'Для постящихся в понедельник — пища без масла, для остальных — пища скоромная',
+    10: 'Для постящихся в понедельник — пища с маслом, для остальных — пища скоромная',
+    11: 'Для постящихся в понедельник — пища с рыбой,  для остальных — пища скоромная',
+    12: 'На трапезе — молоко, сыр, яйца',
     13: 'Пища скоромная',
     14: 'Пища без масла, пьем вино ради восопминания Вечери Господней'
     }
 
 print '******************************************************'
-
-print weekname,
-print ''
-print 'Глас', tone_word[tone]
-print ''
 # Вывод дня недели.
 print weekday_word[weekday]
 # Дата по юлианскому календарю.
-print day, month_word[month], year, 'года', '-- По юлианскому календарю'
-print gr_day, month_word[gr_month], gr_year, 'года', '-- По григорианскому календарю'
-print ''
+print day, month_word[month], year, 'года', 'по ст. ст.'
+print gr_day, month_word[gr_month], gr_year, 'года', 'по н. ст.'
+print '\n'
+print textwrap.fill(weekdayname.format(red='\033[31m', end='\033[0m'), width=110),
+print '\n'
+print 'Глас', tone_word[tone]
 # Вывод дня недели.
-print menology[month][day]['first_saint'],
+print menology[month][day]['first_saint'].format(red='\033[31m', end='\033[0m'),
 try:
-    print menology[month][day]['second_saint'], menology[month][day]['old_believer_saint']
+    print menology[month][day]['second_saint'].format(red='\033[31m', end='\033[0m'),\
+        menology[month][day]['old_believer_saint'].format(red='\033[31m', end='\033[0m')
 except KeyError:
     None
 print fasts_word[fast] + '.'
