@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#coding: utf-8
+# coding: utf-8
 
 
 """
@@ -10,7 +10,7 @@
 
 import textwrap
 import datetime
-from holidate_func import easter, ju_to_jd, weekday_ju, gr_to_jd
+from holydate_func import easter, ju_to_jd, weekday_ju, gr_to_jd
 from menology import menology
 
 #Дни недели, месяцы, гласы.
@@ -26,18 +26,18 @@ tone_word = {1: 'первый', 2: 'второй', 3: 'третий', 4: 'чет
 
 
 #Текущая дата по григорианскому календарю.
-'''
 gr_day = datetime.date.today().day
 gr_month = datetime.date.today().month
 gr_year = datetime.date.today().year
 day, month, year = gr_to_jd(gr_day, gr_month, gr_year)
 
+# Это для теста:
 '''
+gr_day = 9
+gr_month = 2
+gr_year = 2014
 
-gr_day = 3
-gr_month = 1
-gr_year = 2009
-
+'''
 
 day, month, year = gr_to_jd(gr_day, gr_month, gr_year)
 
@@ -113,11 +113,17 @@ elif difference_between_days in range(-27, -22):
 elif difference_between_days in [-22]:
     weekdayname = 'Третья суббота Великого поста. Поминание усопших'
 elif difference_between_days in [-21]:
-    weekdayname = 'Четвертая неделя Великого поста.  Иоанна Лествичника'
+    weekdayname = 'Четвертая неделя Великого поста. Иоанна Лествичника'
 elif difference_between_days in range(-20, -15):
-    if weekday in [1, 2, 3, 5]:
+    #Марьино стояние меняется с Благовещением.
+    if weekday in [2] and day in [23] and month in [3]:
+        weekdayname = ('Четверток Великого канона преп. Андрея Критского.  '
+                       'Совершается служба Марьино стояние')
+    elif weekday in [1, 2, 3, 5]:
         weekdayname = 'Пятая седмица Великого поста'
-    #TODO: Переписать, т.к. Марьино стояние меняется с Благовещением.
+    #Марьино стояние меняется с Благовещением.
+    elif weekday in [4] and day in [25] and month in [3]:
+        weekdayname = 'Пятая седмица Великого поста'
     elif weekday in [4]:
         weekdayname = ('Четверток Великого канона преп. Андрея Критского.  '
                        'Совершается служба Марьино стояние')

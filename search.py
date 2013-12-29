@@ -1,12 +1,13 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# coding: utf-8
 
 """
 Поиск имен святых в календаре.
 
 """
-import datetime
+
 import re
+import datetime
 from menology import menology
 from holidate_func import ju_to_gr_in_search
 
@@ -25,10 +26,11 @@ month_word = {
     12: 'декабря'
 }
 
-search_string = 'Авраам'.decode('utf8')
+search_string = 'Рожество'.decode('utf8')
 d = menology
 out = []
 year = datetime.date.today().year
+#TODO: запретить искать в середине слова.
 pattern = re.compile(search_string[:-1], re.IGNORECASE | re.UNICODE)
 
 #Ищем в menology строку; если есть, добавляем в out.
@@ -47,5 +49,5 @@ if len(out) == 0:
     print u'Ваш запрос — «{}» не найден!'.format(search_string)
 else:
     for item in out:
-        print item[0][0], item[0][1], 'по ст. ст.', '\n', item[1][0], item[1][1], 'по н. ст.', \
+        print item[0][0], item[0][1], 'по н. ст.', '\n', item[1][0], item[1][1], 'по ст. ст.', \
             item[2][0].format(red='\033[31m', end='\033[0m')
