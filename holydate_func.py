@@ -35,7 +35,7 @@ def easter(year):
     return day, month, year
 
 
-def u_to_jd(day, month, year):
+def ju_to_jd(day, month, year):
     """
     Convert julian calendar date to Julian Date(JD).
 
