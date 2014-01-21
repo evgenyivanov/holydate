@@ -1,0 +1,29 @@
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="/static/js/jquery-1.9.0.js"></script>
+<script type='text/javascript' src='/static/js/jquery-ui.js'></script>
+<title>Тестирование веб-сервиса</title>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+<script>
+  $(function() {
+    $( "#datepicker" ).datepicker();
+  });
+  </script>
+
+  <script>
+  function getxml(){
+
+  var xml = '<?xml version="1.0" encoding="windows-1251"?><date>'+$( "#datepicker" ).val()+'</date></xml>';
+  $.get( "http://oldbeliverscalendar.pythonanywhere.com/calendar_xml/",{xml : xml}, function( data ) {
+  alert(data);
+  });
+
+  };
+  </script>
+</head>
+<body>
+
+<input type = "text" value ="" id="datepicker">  <input type="button" value="Send" onclick="getxml('')">
+</body>
+
+
